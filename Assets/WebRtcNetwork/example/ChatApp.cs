@@ -117,6 +117,8 @@ public class ChatApp : MonoBehaviour
     private const int MAX_CODE_LENGTH = 256;
     private string roomOpenerStartingSide;
 
+    private GameObject ticTacToe;
+
 
 
     /// <summary>
@@ -262,8 +264,9 @@ public class ChatApp : MonoBehaviour
                             {
                                 //user runs a server. announce to everyone the new connection
                                 //using the server side connection id as identification
-                                string msg = "New user " + evt.ConnectionId + " joined the room. Player " + roomOpenerStartingSide + " opened the room and has first move."
-                                Append(msg);
+                                // string msg = "New user " + evt.ConnectionId + " joined the room. Player " + roomOpenerStartingSide + " opened the room and has first move."
+                                // Append(msg);
+                                string msg = "START_GAME:" + roomOpenerStartingSide;
                                 SendString(msg);
                             }
                         } break;
@@ -321,6 +324,11 @@ public class ChatApp : MonoBehaviour
         //if server -> forward the message to everyone else including the sender
         if (mIsServer)
         {
+            if (msg == "START_GAME:" + roomOpenerStartingSide)
+            {
+                ticTacToe.GetComponent<GameController>().StartGame();
+            }
+
             //we use the server side connection id to identify the client
             string idAndMessage = evt.ConnectionId + ":" + msg;
             SendString(idAndMessage);
@@ -429,8 +437,9 @@ public class ChatApp : MonoBehaviour
     ///
     /// Opens a room / starts a server
     /// </summary>
-    public void OpenRoomButtonPressed(string roomName, string startingSide)
+    public void OpenRoomButtonPressed(string roomName, string startingSide, GameObject ttt)
     {
+        ticTacToe = ttt;
         roomOpenerStartingSide = startingSide;
         Setup();
         mNetwork.StartServer(roomName);

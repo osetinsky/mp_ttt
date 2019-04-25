@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour {
 
   private ChatApp cApp;
 
-  private const string DEFAULT_ROOM_NAME = "foo-a1d7a8ab64";
+  private const string DEFAULT_ROOM_NAME = "foo-bar";
 
   void Awake ()
   {
@@ -84,7 +84,7 @@ public class GameController : MonoBehaviour {
 
       cApp = new ChatApp();
       cApp.StartMe();
-      cApp.OpenRoomButtonPressed(DEFAULT_ROOM_NAME, startingSide);
+      cApp.OpenRoomButtonPressed(DEFAULT_ROOM_NAME, startingSide, gameObject);
   }
 
   private void JoinRoom()
@@ -297,7 +297,7 @@ public class GameController : MonoBehaviour {
     gameOverText.text = value;
   }
 
-  void StartGame ()
+  public void StartGame ()
   {
     startInfo.SetActive(false);
     SetBoardInteractable(true);
