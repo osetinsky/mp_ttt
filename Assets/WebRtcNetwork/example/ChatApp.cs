@@ -331,13 +331,14 @@ public class ChatApp : MonoBehaviour
         //if server -> forward the message to everyone else including the sender
         if (mIsServer)
         {
-            // if (msg == "START_GAME:" + roomOpenerStartingSide)
-            // {
-            //     // since server opened the game, they start
-            //
-            //     // show panel: Player X/O has joined. You start as X/O!
-            //     ticTacToe.GetComponent<GameController>().StartGame(true);
-            // }
+            if (msg == "START_GAME:" + roomOpenerStartingSide)
+            {
+                // since server opened the game, they start
+
+                // show panel: Player X/O has joined. You start as X/O!
+                Debug.Log("starting game for server (opener)");
+                // ticTacToe.GetComponent<GameController>().StartGame(true);
+            }
 
             //we use the server side connection id to identify the client
             string idAndMessage = evt.ConnectionId + ":" + msg;
@@ -354,13 +355,14 @@ public class ChatApp : MonoBehaviour
 
             // TODO update the gamecontroller
 
-            // if (msg == "START_GAME:" + roomOpenerStartingSide)
-            // {
-            //     // since client joined the game, they wait to start
-            //
-            //     // show panel: You've joined the game as X/O! Your opponent starts as X/O.
-            //     ticTacToe.GetComponent<GameController>().StartGame(false);
-            // }
+            if (msg == "START_GAME:" + roomOpenerStartingSide)
+            {
+                // since client joined the game, they wait to start
+
+                // show panel: You've joined the game as X/O! Your opponent starts as X/O.
+                Debug.Log("starting game for client (joiner)");
+                // ticTacToe.GetComponent<GameController>().StartGame(false);
+            }
         }
 
         //return the buffer so the network can reuse it
@@ -376,7 +378,7 @@ public class ChatApp : MonoBehaviour
     private void SendString(string msg, bool reliable = true)
     {
         Debug.Log("WTF?");
-        
+
         if (mNetwork == null || mConnections.Count == 0)
         {
             Append("No connection. Can't send message.");
