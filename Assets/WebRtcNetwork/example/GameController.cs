@@ -65,6 +65,7 @@ public class GameController : MonoBehaviour {
     // SetPlayers(false);
     waitingForPlayerInfo.SetActive(false);
     SetCreateJoinButtons(true);
+    cApp = new ChatApp();
   }
 
   // void SetPlayers (bool toggle)
@@ -82,7 +83,6 @@ public class GameController : MonoBehaviour {
   {
       Debug.Log(startingSide);
 
-      cApp = new ChatApp();
       cApp.StartMe();
       cApp.OpenRoomButtonPressed(DEFAULT_ROOM_NAME, startingSide, gameObject);
   }
@@ -108,11 +108,11 @@ public class GameController : MonoBehaviour {
   // need a new state: waiting to create/join room state
 
 
-  // private void FixedUpdate()
-  // {
-  //     //check each fixed update if we have got new events
-  //     cApp.HandleNetwork();
-  // }
+  private void FixedUpdate()
+  {
+      //check each fixed update if we have got new events
+      cApp.HandleNetwork();
+  }
 
   void SetPlayerColorsInactive ()
   {
@@ -299,9 +299,11 @@ public class GameController : MonoBehaviour {
 
   public void StartGame (bool isOpener)
   {
+     Debug.Log("game started");
      SetPlayerButtons(false);
 
     if (isOpener) {
+        Debug.Log("you need to start");
         SetBoardInteractable(true);
 
         // show new panel: "it's your turn!"
