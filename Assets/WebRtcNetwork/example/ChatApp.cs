@@ -208,6 +208,7 @@ public class ChatApp : MonoBehaviour
     //     //check each fixed update if we have got new events
     //     HandleNetwork();
     // }
+
     public void HandleNetwork()
     {
         //check if the network was created
@@ -387,15 +388,16 @@ public class ChatApp : MonoBehaviour
         else
         {
             Debug.Log("Sending string...");
+
             byte[] msgData = Encoding.UTF8.GetBytes(msg);
             foreach (ConnectionId id in mConnections)
             {
+                Debug.Log("send data");
+                Debug.Log(id);
                 mNetwork.SendData(id, msgData, 0, msgData.Length, reliable);
             }
         }
     }
-
-
 
     #region UI
 
