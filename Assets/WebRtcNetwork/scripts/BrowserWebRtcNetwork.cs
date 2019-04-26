@@ -500,6 +500,7 @@ namespace Byn.Net
         /// <param name="reliable">True to use the ordered, reliable transfer, false for unordered and unreliable</param>
         public void SendData(ConnectionId conId, byte[] data, int offset, int length, bool reliable)
         {
+            Debug.Log("send data from BrowserWebRtcNetwork");
             UnityWebRtcNetworkSendData(mReference, conId.id, data, offset, length, reliable);
         }
 

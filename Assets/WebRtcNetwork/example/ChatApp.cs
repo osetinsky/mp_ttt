@@ -162,7 +162,6 @@ public class ChatApp : MonoBehaviour
     {
         Append("Initializing webrtc network");
 
-
         mNetwork = WebRtcNetworkFactory.Instance.CreateDefault(uSignalingUrl, new IceServer[] { new IceServer(uIceServer, uIceServerUser, uIceServerPassword), new IceServer(uIceServer2) });
         if (mNetwork != null)
         {
@@ -394,6 +393,7 @@ public class ChatApp : MonoBehaviour
             {
                 Debug.Log("send data");
                 Debug.Log(id);
+
                 mNetwork.SendData(id, msgData, 0, msgData.Length, reliable);
             }
         }
