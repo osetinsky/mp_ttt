@@ -307,7 +307,7 @@ public class ChatApp : MonoBehaviour
                             }
                         } break;
                     case NetEventType.ReliableMessageReceived:
-                    case NetEventType.UnreliableMessageReceived:
+                    // case NetEventType.UnreliableMessageReceived:
                         {
                             HandleIncommingMessage(ref evt);
                         } break;
@@ -375,6 +375,8 @@ public class ChatApp : MonoBehaviour
     /// <param name="reliable">false to use unreliable messages / true to use reliable messages</param>
     private void SendString(string msg, bool reliable = true)
     {
+        Debug.Log("WTF?");
+        
         if (mNetwork == null || mConnections.Count == 0)
         {
             Append("No connection. Can't send message.");
@@ -382,6 +384,7 @@ public class ChatApp : MonoBehaviour
         }
         else
         {
+            Debug.Log("Sending string...");
             byte[] msgData = Encoding.UTF8.GetBytes(msg);
             foreach (ConnectionId id in mConnections)
             {
