@@ -307,7 +307,7 @@ public class ChatApp : MonoBehaviour
                             }
                         } break;
                     case NetEventType.ReliableMessageReceived:
-                    // case NetEventType.UnreliableMessageReceived:
+                    case NetEventType.UnreliableMessageReceived:
                         {
                             HandleIncommingMessage(ref evt);
                         } break;
@@ -393,7 +393,10 @@ public class ChatApp : MonoBehaviour
             {
                 Debug.Log("send data");
                 Debug.Log(id);
+                Debug.Log(msgData);
 
+                // BUG what is happening here?
+                // reliable?
                 mNetwork.SendData(id, msgData, 0, msgData.Length, reliable);
             }
         }
