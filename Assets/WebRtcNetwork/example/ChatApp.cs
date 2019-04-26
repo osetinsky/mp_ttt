@@ -326,7 +326,10 @@ public class ChatApp : MonoBehaviour
         {
             if (msg == "START_GAME:" + roomOpenerStartingSide)
             {
-                ticTacToe.GetComponent<GameController>().StartGame();
+                // since server opened the game, they start
+
+                // show panel: Player X/O has joined. You start as X/O!
+                ticTacToe.GetComponent<GameController>().StartGame(true);
             }
 
             //we use the server side connection id to identify the client
@@ -343,6 +346,14 @@ public class ChatApp : MonoBehaviour
             Debug.Log("not server: " + msg);
 
             // TODO update the gamecontroller
+
+            if (msg == "START_GAME:" + roomOpenerStartingSide)
+            {
+                // since client joined the game, they wait to start
+
+                // show panel: You've joined the game as X/O! Your opponent starts as X/O.
+                ticTacToe.GetComponent<GameController>().StartGame(false);
+            }
         }
 
         //return the buffer so the network can reuse it

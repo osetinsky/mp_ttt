@@ -142,7 +142,7 @@ public class GameController : MonoBehaviour {
 
       // will need to ensure other side starts
       JoinRoom();
-      StartGame ();
+      // StartGame ();
   }
 
   public void SetStartingSide (string startingSide)
@@ -297,12 +297,23 @@ public class GameController : MonoBehaviour {
     gameOverText.text = value;
   }
 
-  public void StartGame ()
+  public void StartGame (bool isOpener)
   {
-    startInfo.SetActive(false);
-    SetBoardInteractable(true);
+     SetPlayerButtons(false);
 
-    SetPlayerButtons(false);
+    if (isOpener) {
+        SetBoardInteractable(true);
+
+        // show new panel: "it's your turn!"
+    }
+
+    if (!isOpener) {
+        SetBoardInteractable(false);
+
+        // show new panel: "it's their turn!"
+    }
+
+    startInfo.SetActive(false);
   }
 
   public void RestartGame ()
