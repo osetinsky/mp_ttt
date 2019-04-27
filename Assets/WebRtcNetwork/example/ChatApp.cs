@@ -362,7 +362,7 @@ public class ChatApp : MonoBehaviour
 
             Debug.Log("not server: " + msg);
 
-            if (string.Equals(msg, "START_GAME:" + roomOpenerStartingSide))
+            if (msg.Contains("START_GAME:"))
             {
                 // since client joined the game, they wait to start
 
