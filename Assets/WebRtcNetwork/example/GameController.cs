@@ -200,7 +200,7 @@ public class GameController : MonoBehaviour {
     // joinGame.button.interactable = toggle;
   }
 
-  void SetPlayerColors (Player newPlayer, Player oldPlayer)
+  public void SetPlayerColors (Player newPlayer, Player oldPlayer)
   {
     newPlayer.panel.color = activePlayerColor.panelColor;
     newPlayer.text.color = activePlayerColor.textColor;

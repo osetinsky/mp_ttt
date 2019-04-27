@@ -120,7 +120,6 @@ public class ChatApp : MonoBehaviour
     private GameObject ticTacToe;
 
 
-
     /// <summary>
     /// Will setup webrtc and create the network object
     /// </summary>
@@ -369,6 +368,19 @@ public class ChatApp : MonoBehaviour
                 // show panel: You've joined the game as X/O! Your opponent starts as X/O.
                 Debug.Log("starting game for client (joiner)");
                 // ticTacToe.GetComponent<GameController>().StartGame(false);
+                string[] msgComponents = msg.Split(':');
+                string openerSide = msgComponents[1];
+
+                Player playerX = ticTacToe.GetComponent<GameController>().playerX;
+                Player playerO = ticTacToe.GetComponent<GameController>().playerO;
+
+                if (openerSide == "X")
+                {
+                    ticTacToe.GetComponent<GameController>().SetPlayerColors(playerX, playerO);
+                } else
+                {
+                    ticTacToe.GetComponent<GameController>().SetPlayerColors(playerO, playerX);
+                }
             }
         }
 
