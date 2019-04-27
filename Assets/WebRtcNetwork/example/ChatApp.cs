@@ -383,6 +383,8 @@ public class ChatApp : MonoBehaviour
 
             if (msg.Contains("MOVE:"))
             {
+
+                Debug.Log("MESSAGE: " + msg);
                 string[] msgComponents = msg.Split(':');
                 string moveSide = msgComponents[1];
                 int moveGridSpaceIdx = Int32.Parse(msgComponents[2]);
