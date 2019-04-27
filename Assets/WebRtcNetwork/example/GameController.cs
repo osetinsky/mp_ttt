@@ -46,6 +46,7 @@ public class GameController : MonoBehaviour {
 
   public GameObject yourTurnInfo;
   public GameObject theirTurnInfo;
+  public GameObject joiningInfo;
 
   public CreateJoinGame createGame;
   public CreateJoinGame joinGame;
@@ -65,9 +66,9 @@ public class GameController : MonoBehaviour {
     restartButton.SetActive(false);
     startInfo.SetActive(false);
 
-    // SetPlayers(false);
-    yourTurnInfo.SetActive(false);
-    theirTurnInfo.SetActive(false);
+    SetYourTurnInfo(false);
+    SetTheirTurnInfo(false);
+    SetJoiningInfo(false);
 
     waitingForPlayerInfo.SetActive(false);
     SetCreateJoinButtons(true);
@@ -142,6 +143,8 @@ public class GameController : MonoBehaviour {
   {
       SetCreateJoinButtons(false);
       createJoinGameInfo.SetActive(false);
+      SetJoiningInfo(true);
+      SetPlayerButtons(false);
 
       // startInfo.SetActive(true);
       // SetPlayerButtons(true);
@@ -172,6 +175,11 @@ public class GameController : MonoBehaviour {
   public void SetWaitingForPlayer(bool toggle)
   {
       waitingForPlayerInfo.SetActive(toggle);
+  }
+
+  public void SetJoiningInfo(bool toggle)
+  {
+      joiningInfo.SetActive(toggle);
   }
 
   public void SetYourTurnInfo(bool toggle)

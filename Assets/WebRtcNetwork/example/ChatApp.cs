@@ -278,6 +278,7 @@ public class ChatApp : MonoBehaviour
                                 SendString(msg);
                             } else
                             {
+                                ticTacToe.GetComponent<GameController>().SetJoiningInfo(false);
                                 ticTacToe.GetComponent<GameController>().StartGame(false);
                                 ticTacToe.GetComponent<GameController>().SetTheirTurnInfo(true);
                             }
