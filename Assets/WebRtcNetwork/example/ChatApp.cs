@@ -450,8 +450,9 @@ public class ChatApp : MonoBehaviour
     /// <summary>
     /// Join button pressed. Tries to join a room.
     /// </summary>
-    public void JoinRoomButtonPressed(string roomName)
+    public void JoinRoomButtonPressed(string roomName, GameObject ttt)
     {
+        ticTacToe = ttt;
         Setup();
         mNetwork.Connect(roomName);
         Append("Connecting to " + roomName + " ...");

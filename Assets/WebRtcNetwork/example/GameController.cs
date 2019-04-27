@@ -95,7 +95,7 @@ public class GameController : MonoBehaviour {
 
   private void JoinRoom()
   {
-      cApp = new ChatApp();
+      // cApp = new ChatApp();
       cApp.StartMe();
       cApp.JoinRoomButtonPressed(DEFAULT_ROOM_NAME);
   }
