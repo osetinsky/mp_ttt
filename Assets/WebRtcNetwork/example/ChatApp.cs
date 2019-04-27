@@ -391,7 +391,7 @@ public class ChatApp : MonoBehaviour
                 int moveGridSpaceIdx = Int32.Parse(msgComponents[3]);
 
                 gridSpace = new GridSpace();
-                gridSpace.SetSpaceForGrid(moveGridSpaceIdx, moveSide);
+                gridSpace.SetSpaceForGrid(moveGridSpaceIdx, moveSide, ticTacToe.GetComponent<GameController>());
             }
         }
 

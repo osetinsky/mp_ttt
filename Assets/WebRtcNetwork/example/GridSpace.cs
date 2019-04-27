@@ -17,10 +17,10 @@ public class GridSpace : MonoBehaviour {
         gameController.EndTurn(buttonIdx);
     }
 
-    public void SetSpaceForGrid (int gridButtonIdx, string playerSide)
+    public void SetSpaceForGrid (int gridButtonIdx, string playerSide, GameController gc)
     {
         // gameController = new GameController();
-        GridSpace gridSpace = gameController.buttonList[gridButtonIdx].GetComponentInParent<GridSpace>();
+        GridSpace gridSpace = gc.buttonList[gridButtonIdx].GetComponentInParent<GridSpace>();
 
         gridSpace.buttonText.text = playerSide;
         gridSpace.button.interactable = false;
