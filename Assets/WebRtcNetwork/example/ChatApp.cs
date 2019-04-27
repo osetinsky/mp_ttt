@@ -385,9 +385,10 @@ public class ChatApp : MonoBehaviour
             {
 
                 Debug.Log("MESSAGE: " + msg);
+                // message looks like 0:MOVE:X:7
                 string[] msgComponents = msg.Split(':');
-                string moveSide = msgComponents[1];
-                int moveGridSpaceIdx = Int32.Parse(msgComponents[2]);
+                string moveSide = msgComponents[2];
+                int moveGridSpaceIdx = Int32.Parse(msgComponents[3]);
 
                 gridSpace = new GridSpace();
                 gridSpace.SetSpaceForGrid(moveGridSpaceIdx, moveSide);
