@@ -297,6 +297,16 @@ public class GameController : MonoBehaviour {
     {
       SetPlayerColors(playerO, playerX);
     }
+
+    if (yourTurnInfo.activeSelf)
+    {
+        SetYourTurnInfo(false);
+        SetTheirTurnInfo(true);
+    } else
+    {
+        SetYourTurnInfo(true);
+        SetTheirTurnInfo(false);
+    }
   }
 
   void GameOver (string winningPlayer)
