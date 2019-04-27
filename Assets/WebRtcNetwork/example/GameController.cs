@@ -283,6 +283,7 @@ public class GameController : MonoBehaviour {
     {
       ChangeSides ();
     }
+    cApp.SendButtonPressed("player " + playerSide + " moved");
   }
 
   void ChangeSides ()
