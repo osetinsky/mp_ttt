@@ -118,6 +118,7 @@ public class ChatApp : MonoBehaviour
     private string roomOpenerStartingSide;
 
     private GameObject ticTacToe;
+    private GridSpace gridSpace;
 
 
     /// <summary>
@@ -348,7 +349,7 @@ public class ChatApp : MonoBehaviour
             //we use the server side connection id to identify the client
             string idAndMessage = evt.ConnectionId + ":" + msg;
             SendString(idAndMessage);
-            Append(idAndMessage);
+
             Debug.Log("server: " + msg);
         }
         else
@@ -379,6 +380,16 @@ public class ChatApp : MonoBehaviour
                     ticTacToe.GetComponent<GameController>().SetPlayerColors(playerO, playerX);
                 }
             }
+
+            if (msg.Contains("MOVE:"))
+            {
+                string[] msgComponents = msg.Split(':');
+                string moveSide = msgComponents[1];
+                int moveGridSpaceIdx = Int32.Parse(msgComponents[2]);
+
+                gridSpace = new GridSpace();
+                gridSpace.SetSpaceForGrid(moveGridSpaceIdx, moveSide);
+            }
         }
 
         //return the buffer so the network can reuse it
@@ -393,8 +404,6 @@ public class ChatApp : MonoBehaviour
     /// <param name="reliable">false to use unreliable messages / true to use reliable messages</param>
     private void SendString(string msg, bool reliable = true)
     {
-        Debug.Log("WTF?");
-
         if (mNetwork == null || mConnections.Count == 0)
         {
             Append("No connection. Can't send message.");
@@ -407,14 +416,6 @@ public class ChatApp : MonoBehaviour
             byte[] msgData = Encoding.UTF8.GetBytes(msg);
             foreach (ConnectionId id in mConnections)
             {
-                Debug.Log("send data");
-                Debug.Log(id);
-                Debug.Log(msgData);
-
-                // BUG what is happening here?
-                // reliable?
-                Debug.Log(mNetwork);
-
                 mNetwork.SendData(id, msgData, 0, msgData.Length, reliable);
             }
         }
@@ -434,7 +435,7 @@ public class ChatApp : MonoBehaviour
     /// <param name="text"></param>
     private void Append(string text)
     {
-        Debug.Log("chat: " + text);
+        // Debug.Log("chat: " + text);
         // uOutput.AddTextEntry(text);
     }
 
