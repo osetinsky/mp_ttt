@@ -229,7 +229,7 @@ public class GameController : MonoBehaviour {
     return playerSide;
   }
 
-  public void EndTurn ()
+  public void EndTurn (Button button)
   {
     moveCount ++;
     // ChatApp.SendButtonPressed();
@@ -283,7 +283,9 @@ public class GameController : MonoBehaviour {
     {
       ChangeSides ();
     }
-    cApp.SendButtonPressed("player " + playerSide + " moved");
+
+    int buttonIdx = Array.IndexOf(buttonList, button);
+    cApp.SendButtonPressed("MOVE:" + playerSide + ":" + buttonIdx);
   }
 
   void ChangeSides ()

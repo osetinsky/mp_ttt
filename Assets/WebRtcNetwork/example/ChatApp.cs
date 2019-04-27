@@ -340,13 +340,9 @@ public class ChatApp : MonoBehaviour
         //if server -> forward the message to everyone else including the sender
         if (mIsServer)
         {
-            if (msg == "START_GAME:" + roomOpenerStartingSide)
+            if (msg.Contains("START_GAME:"))
             {
-                // since server opened the game, they start
-
-                // show panel: Player X/O has joined. You start as X/O!
                 Debug.Log("starting game for server (opener)");
-                // ticTacToe.GetComponent<GameController>().StartGame(true);
             }
 
             //we use the server side connection id to identify the client
