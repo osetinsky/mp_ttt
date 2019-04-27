@@ -271,7 +271,16 @@ public class ChatApp : MonoBehaviour
                                 Debug.Log(msg);
                                 Debug.Log("JOINED!");
 
+                                SendButtonPressed("LOL");
+
+                                ticTacToe.GetComponent<GameController>().StartGame(true);
+                                ticTacToe.GetComponent<GameController>().SetYourTurnInfo(true);
+
                                 SendString(msg);
+                            } else
+                            {
+                                ticTacToe.GetComponent<GameController>().StartGame(false);
+                                ticTacToe.GetComponent<GameController>().SetTheirTurnInfo(true);
                             }
                         } break;
                     case NetEventType.ConnectionFailed:
@@ -397,6 +406,8 @@ public class ChatApp : MonoBehaviour
 
                 // BUG what is happening here?
                 // reliable?
+                Debug.Log(mNetwork);
+
                 mNetwork.SendData(id, msgData, 0, msgData.Length, reliable);
             }
         }

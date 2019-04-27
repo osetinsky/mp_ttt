@@ -7,15 +7,15 @@
         <member name="T:Byn.Net.ConnectionId">
             <summary>
             Connection id idendifies one specific endpoint in a IBaseNetwork.
-            
+
             The id is only unique locally for a specific IBaseNetwork. The same connection
-            can have a different id on the other end point of the connection! 
+            can have a different id on the other end point of the connection!
             </summary>
         </member>
         <member name="F:Byn.Net.ConnectionId.INVALID">
             <summary>
             Specific id that is used to represent an invalid id.
-            
+
             Value might change to 0 in the future to make sure C# initializes empty id's to
             invalid values.
             </summary>
@@ -41,7 +41,7 @@
             <summary>
             Used to set up some default values such as free ice servers and signaling server. They are only meant
             to make the use of the library easier at the beginning.
-            
+
             Don't use them in production.
             </summary>
         </member>
@@ -63,7 +63,7 @@
             This workaround will attempt a call for 5 seconds and then kill the stream
             if it gets stuck and retry with a higher timeout value. It usually works
             after the first retry.
-            
+
             The default is false as the work around might cause other problems on other
             platforms.
             </summary>
@@ -71,7 +71,7 @@
         <member name="T:Byn.Net.INetwork">
             <summary>
             Interface to a network that doesn't enforce storing any states.
-            
+
             Anything more is reusable between multiple different networks.
             </summary>
         </member>
@@ -114,7 +114,7 @@
             <summary>
             Disconnects all connection and shuts down the server if started.
             Dequeue will still return the confirmation messages such as Disconnected event for each connection.
-            
+
             </summary>
         </member>
         <member name="M:Byn.Net.INetwork.Update">
@@ -126,7 +126,7 @@
         <member name="T:Byn.Net.IBasicNetwork">
             <summary>
             Used to represent a network interface that can allow incoming connections or connect to another network.
-            
+
             Address can be any kind of string. This could be a ip address and port, websockets or an key in a dictionary
             on a server to get the exact connection details from somewhere else.
             </summary>
@@ -149,12 +149,12 @@
         <member name="M:Byn.Net.IBasicNetwork.Connect(System.String)">
             <summary>
             Connects to a given address or room name.
-            
+
             This call will result in one of those 2 events in response:
             * NewConnection if the connection was established
             * ConnectionFailed if the connection failed.
-            
-            
+
+
             </summary>
             <param name="address">A string that identifies the target.</param>
             <returns>Returns the Connection id the established connection will have (only supported by WebRtcNetwork).</returns>
@@ -203,21 +203,21 @@
         <member name="T:Byn.Net.LocalNetwork">
             <summary>
             LocalNetwork. Simulate the IBasicNetwork locally in a single applicaiton.
-            
+
             </summary>
         </member>
         <member name="T:Byn.Net.MessageDataBuffer">
              <summary>
-             
+
              This interface is used to return binary message data.
-            
+
              Use MessageDataBuffer.Buffer only to read data between
              the index Offset and Offset + MessageDataBuffer.ContentLength.
-             
+
              After reading use Dispose to allow the network to
              reuse this buffer and spare the Garbage Collector
              the work.
-             
+
              Make sure not to keep any references to
              MessageDataBuffer.Buffer after calling Dispose!
              If you need to store the byte array create a copy
@@ -260,20 +260,20 @@
         <member name="T:Byn.Net.NetworkEvent">
             <summary>
             Contains information about events received by the network.
-            
+
             The type of the network event decides the content it can contain.
-            
+
             Most important are:
-            
+
             UnreliableMessageReceived / ReliableMessageReceived:
             A new message was received. The property MessageData will return
             a buffer + byte array containing the data received.
-            
+
             ServerInitialized:
             A call to StartServer was successful. The Info property will return the address
             the server can be accessed by.
-            
-            
+
+
             </summary>
         </member>
         <member name="P:Byn.Net.NetworkEvent.Type">
@@ -296,7 +296,7 @@
             <summary>
             Returns the content of the messages if the event type is
             UnreliableMessageReceived or ReliableMessageReceived.
-            
+
             null for all other message types.
             </summary>
         </member>
@@ -315,9 +315,9 @@
         </member>
         <member name="M:Byn.Net.NetworkEvent.#ctor(Byn.Net.NetEventType)">
             <summary>
-            Creates a new network event of a certain type setting 
+            Creates a new network event of a certain type setting
             connection id to invalid and data to null.
-            
+
             Internal only. Do not use.
             </summary>
             <param name="t">The type of this event</param>
@@ -325,7 +325,7 @@
         <member name="M:Byn.Net.NetworkEvent.#ctor(Byn.Net.NetEventType,Byn.Net.ConnectionId,System.Object)">
             <summary>
             Creates a network event with the given content
-            
+
             Internal only. Do not use.
             </summary>
             <param name="t">Type name</param>
@@ -349,11 +349,11 @@
             <summary>
             Mainly used by WebsocketNetwork. It serializes network events into a byte array to allow
             to process the events on a different system than where it actually occurred.
-            
+
             e.g. WebsocketNetwork uses a server that will receive incoming connects and then
             serializes that event into a byte array and send it to the client which holds the
             address of the incoming connection to process the event
-            
+
             NOTE: This method is not optimized and shouldn't be used with a lot of data!
             </summary>
             <param name="evt">Network event to be serialized</param>
@@ -365,14 +365,14 @@
             to log custom messages and implement your own filter.
             Object is the source of the log and string contains a list of
             tags related to the message to make filtering easier.
-            
+
             Note the logging system isn't fully implemented.
             </summary>
         </member>
         <member name="F:Byn.Common.SLog.TAG_WARNING">
             <summary>
             Special tag always used in LW calls
-            
+
             Used for calls that might negatively affect the program.
             </summary>
         </member>
@@ -392,7 +392,7 @@
             Always used L calls.
             Log message that should always be delivered to the end user but
             are not essential.
-            
+
             </summary>
         </member>
         <member name="F:Byn.Common.SLog.TAG_DEBUG">
@@ -408,7 +408,7 @@
         <member name="M:Byn.Common.SLog.SetLogger(System.Action{System.Object,System.String[]})">
             <summary>
             Used to receive the logging messages.
-            
+
             Use the string[] in the callback to filter the log messages
             based on tags.
             </summary>
@@ -439,7 +439,7 @@
             <summary>
             Verbose log. Only available in debug mode!
             Used for logging pretty much anything.
-            
+
             Might require an additional flag for verbose mode in the future to avoid
             wasting CPU time / generating too much garbage for the GC
             </summary>
@@ -456,7 +456,7 @@
         <member name="M:Byn.Common.SLog.L(System.Object,System.String[])">
             <summary>
             Default log. Unless LD and LV this log will always be available.
-            
+
             Used to log important events that might help debugging crashes but not
             something that happens on a frame - frame basis!
             </summary>

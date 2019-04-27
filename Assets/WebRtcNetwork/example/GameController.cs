@@ -44,6 +44,9 @@ public class GameController : MonoBehaviour {
   public GameObject createJoinGameInfo;
   public GameObject waitingForPlayerInfo;
 
+  public GameObject yourTurnInfo;
+  public GameObject theirTurnInfo;
+
   public CreateJoinGame createGame;
   public CreateJoinGame joinGame;
 
@@ -63,6 +66,9 @@ public class GameController : MonoBehaviour {
     startInfo.SetActive(false);
 
     // SetPlayers(false);
+    yourTurnInfo.SetActive(false);
+    theirTurnInfo.SetActive(false);
+
     waitingForPlayerInfo.SetActive(false);
     SetCreateJoinButtons(true);
     cApp = new ChatApp();
@@ -163,9 +169,19 @@ public class GameController : MonoBehaviour {
     SetWaitingForPlayer(true);
   }
 
-  private void SetWaitingForPlayer(bool toggle)
+  public void SetWaitingForPlayer(bool toggle)
   {
-      waitingForPlayerInfo.SetActive(true);
+      waitingForPlayerInfo.SetActive(toggle);
+  }
+
+  public void SetYourTurnInfo(bool toggle)
+  {
+      yourTurnInfo.SetActive(toggle);
+  }
+
+  public void SetTheirTurnInfo(bool toggle)
+  {
+      theirTurnInfo.SetActive(toggle);
   }
 
   void SetPlayerButtons (bool toggle)

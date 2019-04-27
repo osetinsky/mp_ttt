@@ -501,7 +501,7 @@ namespace Byn.Net
         public void SendData(ConnectionId conId, byte[] data, int offset, int length, bool reliable)
         {
             Debug.Log("send data from BrowserWebRtcNetwork");
-            UnityWebRtcNetworkSendData(mReference, conId.id, data, offset, length, reliable);
+            // UnityWebRtcNetworkSendData(mReference, conId.id, data, offset, length, reliable);
         }
 
         /// <summary>
