@@ -324,6 +324,11 @@ Prefab:
       propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114769390241253986, guid: cedba56bd60e64a6b9a5864e3cd18931,
+        type: 2}
+      propertyPath: buttonIdx
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cedba56bd60e64a6b9a5864e3cd18931, type: 2}
   m_IsPrefabParent: 0
@@ -877,6 +882,11 @@ Prefab:
       propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114769390241253986, guid: cedba56bd60e64a6b9a5864e3cd18931,
+        type: 2}
+      propertyPath: buttonIdx
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cedba56bd60e64a6b9a5864e3cd18931, type: 2}
   m_IsPrefabParent: 0
@@ -1070,6 +1080,11 @@ Prefab:
         type: 2}
       propertyPath: m_Interactable
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114769390241253986, guid: cedba56bd60e64a6b9a5864e3cd18931,
+        type: 2}
+      propertyPath: buttonIdx
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cedba56bd60e64a6b9a5864e3cd18931, type: 2}
@@ -1450,6 +1465,11 @@ Prefab:
       propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114769390241253986, guid: cedba56bd60e64a6b9a5864e3cd18931,
+        type: 2}
+      propertyPath: buttonIdx
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cedba56bd60e64a6b9a5864e3cd18931, type: 2}
   m_IsPrefabParent: 0
@@ -1568,6 +1588,11 @@ Prefab:
         type: 2}
       propertyPath: m_Interactable
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114769390241253986, guid: cedba56bd60e64a6b9a5864e3cd18931,
+        type: 2}
+      propertyPath: buttonIdx
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cedba56bd60e64a6b9a5864e3cd18931, type: 2}
@@ -2500,6 +2525,11 @@ Prefab:
       propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114769390241253986, guid: cedba56bd60e64a6b9a5864e3cd18931,
+        type: 2}
+      propertyPath: buttonIdx
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cedba56bd60e64a6b9a5864e3cd18931, type: 2}
   m_IsPrefabParent: 0
@@ -2960,6 +2990,11 @@ Prefab:
       propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114769390241253986, guid: cedba56bd60e64a6b9a5864e3cd18931,
+        type: 2}
+      propertyPath: buttonIdx
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cedba56bd60e64a6b9a5864e3cd18931, type: 2}
   m_IsPrefabParent: 0
@@ -3235,6 +3270,11 @@ Prefab:
         type: 2}
       propertyPath: m_Interactable
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114769390241253986, guid: cedba56bd60e64a6b9a5864e3cd18931,
+        type: 2}
+      propertyPath: buttonIdx
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cedba56bd60e64a6b9a5864e3cd18931, type: 2}
