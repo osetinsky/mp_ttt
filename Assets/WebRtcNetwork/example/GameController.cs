@@ -97,7 +97,7 @@ public class GameController : MonoBehaviour {
   {
       // cApp = new ChatApp();
       cApp.StartMe();
-      cApp.JoinRoomButtonPressed(DEFAULT_ROOM_NAME);
+      cApp.JoinRoomButtonPressed(DEFAULT_ROOM_NAME, gameObject);
   }
 
   // player1 starts game (presses PLAY in unity)
