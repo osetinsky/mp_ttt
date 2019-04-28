@@ -333,6 +333,9 @@ public class ChatApp : MonoBehaviour
 
     private bool isMoveAllowed(string currentMoveSide)
     {
+        Debug.Log("nextMovePlayerSide: " + nextMovePlayerSide);
+        Debug.Log("currentMoveSide: " + currentMoveSide);
+        
         if (nextMovePlayerSide == currentMoveSide)
         {
             return true;
@@ -416,6 +419,7 @@ public class ChatApp : MonoBehaviour
                 Player playerX = ticTacToe.GetComponent<GameController>().playerX;
                 Player playerO = ticTacToe.GetComponent<GameController>().playerO;
 
+                Debug.Log("OPENER SIDE on start game for client: " + openerSide);
                 nextMovePlayerSide = openerSide;
 
                 if (openerSide == "X")
@@ -437,14 +441,14 @@ public class ChatApp : MonoBehaviour
 
                 if (isMoveAllowed(moveSide))
                 {
-                    if (moveSide == roomOpenerStartingSide)
-                    {
-                        nextMovePlayerSide = otherSide(roomOpenerStartingSide);
-                    }
-                    else
-                    {
-                        nextMovePlayerSide = roomOpenerStartingSide;
-                    }
+                    // if (moveSide == roomOpenerStartingSide)
+                    // {
+                    //     nextMovePlayerSide = otherSide(roomOpenerStartingSide);
+                    // }
+                    // else
+                    // {
+                    //     nextMovePlayerSide = roomOpenerStartingSide;
+                    // }
 
                     gridSpace = new GridSpace();
                     gridSpace.SetSpaceForGrid(moveGridSpaceIdx, moveSide, ticTacToe.GetComponent<GameController>());
