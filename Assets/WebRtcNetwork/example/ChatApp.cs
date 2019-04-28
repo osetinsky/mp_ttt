@@ -120,6 +120,7 @@ public class ChatApp : MonoBehaviour
     private GameObject ticTacToe;
     private GridSpace gridSpace;
 
+    private string nextMovePlayerSide;
 
     /// <summary>
     /// Will setup webrtc and create the network object
@@ -330,6 +331,26 @@ public class ChatApp : MonoBehaviour
         }
     }
 
+    private bool isMoveAllowed(string currentMoveSide)
+    {
+        if (nextMovePlayerSide == currentMoveSide)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private string otherSide(string thisSide)
+    {
+        if (thisSide == "X")
+        {
+            return "O";
+        } else {
+            return "X";
+        }
+    }
+
     private void HandleIncommingMessage(ref NetworkEvent evt)
     {
         Debug.Log("message received");
@@ -348,15 +369,25 @@ public class ChatApp : MonoBehaviour
 
             if (msg.Contains("MOVE:"))
             {
-
                 Debug.Log("MESSAGE: " + msg);
-                // message looks like MOVE:X:7
                 string[] msgComponents = msg.Split(':');
                 string moveSide = msgComponents[1];
                 int moveGridSpaceIdx = Int32.Parse(msgComponents[2]);
 
-                gridSpace = new GridSpace();
-                gridSpace.SetSpaceForGrid(moveGridSpaceIdx, moveSide, ticTacToe.GetComponent<GameController>());
+                if (isMoveAllowed(moveSide))
+                {
+                    if (moveSide == roomOpenerStartingSide)
+                    {
+                        nextMovePlayerSide = otherSide(roomOpenerStartingSide);
+                    }
+                    else
+                    {
+                        nextMovePlayerSide = roomOpenerStartingSide;
+                    }
+
+                    gridSpace = new GridSpace();
+                    gridSpace.SetSpaceForGrid(moveGridSpaceIdx, moveSide, ticTacToe.GetComponent<GameController>());
+                }
             }
 
             //we use the server side connection id to identify the client
@@ -396,15 +427,26 @@ public class ChatApp : MonoBehaviour
 
             if (msg.Contains("MOVE:"))
             {
-
                 Debug.Log("MESSAGE: " + msg);
                 // message looks like 0:MOVE:X:7
                 string[] msgComponents = msg.Split(':');
                 string moveSide = msgComponents[2];
                 int moveGridSpaceIdx = Int32.Parse(msgComponents[3]);
 
-                gridSpace = new GridSpace();
-                gridSpace.SetSpaceForGrid(moveGridSpaceIdx, moveSide, ticTacToe.GetComponent<GameController>());
+                if (isMoveAllowed(moveSide))
+                {
+                    if (moveSide == roomOpenerStartingSide)
+                    {
+                        nextMovePlayerSide = otherSide(roomOpenerStartingSide);
+                    }
+                    else
+                    {
+                        nextMovePlayerSide = roomOpenerStartingSide;
+                    }
+
+                    gridSpace = new GridSpace();
+                    gridSpace.SetSpaceForGrid(moveGridSpaceIdx, moveSide, ticTacToe.GetComponent<GameController>());
+                }
             }
         }
 
@@ -507,6 +549,8 @@ public class ChatApp : MonoBehaviour
     {
         ticTacToe = ttt;
         roomOpenerStartingSide = startingSide;
+        nextMovePlayerSide = startingSide;
+
         Setup();
         mNetwork.StartServer(roomName);
         Debug.Log("StartServer " + roomName);

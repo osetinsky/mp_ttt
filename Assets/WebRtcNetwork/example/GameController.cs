@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour {
   public CreateJoinGame joinGame;
 
   private string playerSide;
-  private int moveCount;
+  public int moveCount;
 
   private ChatApp cApp;
 
@@ -231,7 +231,7 @@ public class GameController : MonoBehaviour {
 
   public void EndTurn (int buttonIdx)
   {
-    moveCount ++;
+    moveCount++;
 
     // clean this up
     if (buttonList[0].text == playerSide && buttonList[1].text == playerSide && buttonList[2].text == playerSide)

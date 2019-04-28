@@ -19,7 +19,6 @@ public class GridSpace : MonoBehaviour {
 
     public void SetSpaceForGrid (int gridButtonIdx, string playerSide, GameController gc)
     {
-        // gameController = new GameController();
         GridSpace gridSpace = gc.buttonList[gridButtonIdx].GetComponentInParent<GridSpace>();
 
         gridSpace.buttonText.text = playerSide;
