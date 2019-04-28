@@ -232,7 +232,6 @@ public class GameController : MonoBehaviour {
   public void EndTurn (int buttonIdx)
   {
     moveCount ++;
-    // ChatApp.SendButtonPressed();
 
     // clean this up
     if (buttonList[0].text == playerSide && buttonList[1].text == playerSide && buttonList[2].text == playerSide)
@@ -284,6 +283,7 @@ public class GameController : MonoBehaviour {
       ChangeSides ();
     }
 
+    Debug.Log("move count: " + moveCount);
     cApp.SendButtonPressed("MOVE:" + playerSide + ":" + buttonIdx);
   }
 

@@ -346,6 +346,19 @@ public class ChatApp : MonoBehaviour
                 Debug.Log("starting game for server (opener)");
             }
 
+            if (msg.Contains("MOVE:"))
+            {
+
+                Debug.Log("MESSAGE: " + msg);
+                // message looks like MOVE:X:7
+                string[] msgComponents = msg.Split(':');
+                string moveSide = msgComponents[1];
+                int moveGridSpaceIdx = Int32.Parse(msgComponents[2]);
+
+                gridSpace = new GridSpace();
+                gridSpace.SetSpaceForGrid(moveGridSpaceIdx, moveSide, ticTacToe.GetComponent<GameController>());
+            }
+
             //we use the server side connection id to identify the client
             string idAndMessage = evt.ConnectionId + ":" + msg;
             SendString(idAndMessage);
