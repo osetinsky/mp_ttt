@@ -120,7 +120,7 @@ public class ChatApp : MonoBehaviour
     private GameObject ticTacToe;
     private GridSpace gridSpace;
 
-    private string nextMovePlayerSide;
+    public string nextMovePlayerSide;
 
     /// <summary>
     /// Will setup webrtc and create the network object

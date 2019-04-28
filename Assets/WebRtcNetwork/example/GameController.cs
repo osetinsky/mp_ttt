@@ -293,6 +293,7 @@ public class GameController : MonoBehaviour {
   void ChangeSides ()
   {
     playerSide = (playerSide == "X") ? "O" : "X";
+    cApp.nextMovePlayerSide = playerSide;
 
     if (playerSide == "X")
     {
