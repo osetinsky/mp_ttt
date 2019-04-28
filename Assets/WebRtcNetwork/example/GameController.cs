@@ -280,11 +280,11 @@ public class GameController : MonoBehaviour {
     }
     else
     {
+      Debug.Log("move count: " + moveCount);
+      cApp.SendButtonPressed("MOVE:" + playerSide + ":" + buttonIdx);
+      
       ChangeSides ();
     }
-
-    Debug.Log("move count: " + moveCount);
-    cApp.SendButtonPressed("MOVE:" + playerSide + ":" + buttonIdx);
   }
 
   void ChangeSides ()
