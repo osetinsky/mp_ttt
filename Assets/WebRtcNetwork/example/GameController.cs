@@ -229,7 +229,7 @@ public class GameController : MonoBehaviour {
     return playerSide;
   }
 
-  public void EndTurn (int buttonIdx)
+  public void EndTurn (int buttonIdx, bool shouldBroadcast = false)
   {
     moveCount++;
 
@@ -280,9 +280,12 @@ public class GameController : MonoBehaviour {
     }
     else
     {
-      Debug.Log("move count: " + moveCount);
-      cApp.SendButtonPressed("MOVE:" + playerSide + ":" + buttonIdx);
-      
+
+      if (shouldBroadcast)
+      {
+          cApp.SendButtonPressed("MOVE:" + playerSide + ":" + buttonIdx);
+      }
+
       ChangeSides ();
     }
   }
