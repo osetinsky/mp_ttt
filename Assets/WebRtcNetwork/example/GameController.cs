@@ -368,7 +368,7 @@ public class GameController : MonoBehaviour {
 
     for (int i = 0; i < buttonList.Length; i++)
     {
-      buttonList [i].text = "";
+      buttonList[i].text = "";
     }
 
     startInfo.SetActive(true);
@@ -381,7 +381,12 @@ public class GameController : MonoBehaviour {
   {
     for (int i = 0; i < buttonList.Length; i++)
     {
-      buttonList[i].GetComponentInParent<Button>().interactable = toggle;
+      if (buttonList[i].text == "")
+      {
+          buttonList[i].GetComponentInParent<Button>().interactable = toggle;
+      }
+      // otherwise, if there is text on the button, it should already be set as false
+      // TODO will need to reset ALL on game restart
     }
   }
 }
