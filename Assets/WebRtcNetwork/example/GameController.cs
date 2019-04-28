@@ -229,7 +229,7 @@ public class GameController : MonoBehaviour {
     return playerSide;
   }
 
-  public void EndTurn (int buttonIdx, bool shouldBroadcast = false)
+  public void EndTurn (int buttonIdx, bool shouldBroadcast = true)
   {
     moveCount++;
 
