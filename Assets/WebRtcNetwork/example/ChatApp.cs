@@ -377,20 +377,20 @@ public class ChatApp : MonoBehaviour
                 string moveSide = msgComponents[1];
                 int moveGridSpaceIdx = Int32.Parse(msgComponents[2]);
 
-                // if (isMoveAllowed(moveSide))
-                // {
-                //     if (moveSide == roomOpenerStartingSide)
-                //     {
-                //         nextMovePlayerSide = otherSide(roomOpenerStartingSide);
-                //     }
-                //     else
-                //     {
-                //         nextMovePlayerSide = roomOpenerStartingSide;
-                //     }
-                //
-                //     gridSpace = new GridSpace();
-                //     gridSpace.SetSpaceForGrid(moveGridSpaceIdx, moveSide, ticTacToe.GetComponent<GameController>());
-                // }
+                if (isMoveAllowed(moveSide))
+                {
+                    if (moveSide == roomOpenerStartingSide)
+                    {
+                        nextMovePlayerSide = otherSide(roomOpenerStartingSide);
+                    }
+                    else
+                    {
+                        nextMovePlayerSide = roomOpenerStartingSide;
+                    }
+
+                    gridSpace = new GridSpace();
+                    gridSpace.SetSpaceForGrid(moveGridSpaceIdx, moveSide, ticTacToe.GetComponent<GameController>());
+                }
             }
 
             //we use the server side connection id to identify the client
