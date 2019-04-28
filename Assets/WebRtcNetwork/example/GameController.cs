@@ -307,10 +307,12 @@ public class GameController : MonoBehaviour {
     {
         SetYourTurnInfo(false);
         SetTheirTurnInfo(true);
+        SetBoardInteractable(true);
     } else
     {
         SetYourTurnInfo(true);
         SetTheirTurnInfo(false);
+        SetBoardInteractable(false);
     }
   }
 
