@@ -17,6 +17,7 @@ public class GridSpace : MonoBehaviour {
         gameController.EndTurn(buttonIdx);
     }
 
+    // this is really (set other player move for client)
     public void SetSpaceForGrid (int gridButtonIdx, string playerSide, GameController gc)
     {
         GridSpace gridSpace = gc.buttonList[gridButtonIdx].GetComponentInParent<GridSpace>();

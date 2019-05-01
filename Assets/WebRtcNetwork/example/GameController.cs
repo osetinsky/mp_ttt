@@ -42,8 +42,8 @@ public class GameController : MonoBehaviour {
 
   public GameObject startInfo;
   public GameObject createJoinGameInfo;
-  public GameObject waitingForPlayerInfo;
 
+  public GameObject waitingForPlayerInfo;
   public GameObject yourTurnInfo;
   public GameObject theirTurnInfo;
   public GameObject joiningInfo;
@@ -51,7 +51,7 @@ public class GameController : MonoBehaviour {
   public CreateJoinGame createGame;
   public CreateJoinGame joinGame;
 
-  private string playerSide;
+  public string playerSide;
   public int moveCount;
 
   private ChatApp cApp;
@@ -88,8 +88,6 @@ public class GameController : MonoBehaviour {
 
   private void OpenRoom(string startingSide)
   {
-      Debug.Log(startingSide);
-
       cApp.StartMe();
       cApp.OpenRoomButtonPressed(DEFAULT_ROOM_NAME, startingSide, gameObject);
   }
@@ -236,47 +234,47 @@ public class GameController : MonoBehaviour {
     // clean this up
     if (buttonList[0].text == playerSide && buttonList[1].text == playerSide && buttonList[2].text == playerSide)
     {
-      GameOver(playerSide);
+      GameOver(playerSide, buttonIdx);
     }
 
     else if (buttonList[3].text == playerSide && buttonList[4].text == playerSide && buttonList[5].text == playerSide)
     {
-      GameOver(playerSide);
+      GameOver(playerSide, buttonIdx);
     }
 
     else if (buttonList[6].text == playerSide && buttonList[7].text == playerSide && buttonList[8].text == playerSide)
     {
-      GameOver(playerSide);
+      GameOver(playerSide, buttonIdx);
     }
 
     else if (buttonList[0].text == playerSide && buttonList[3].text == playerSide && buttonList[6].text == playerSide)
     {
-      GameOver(playerSide);
+      GameOver(playerSide, buttonIdx);
     }
 
     else if (buttonList[1].text == playerSide && buttonList[4].text == playerSide && buttonList[7].text == playerSide)
     {
-      GameOver(playerSide);
+      GameOver(playerSide, buttonIdx);
     }
 
     else if (buttonList[2].text == playerSide && buttonList[5].text == playerSide && buttonList[8].text == playerSide)
     {
-      GameOver(playerSide);
+      GameOver(playerSide, buttonIdx);
     }
 
     else if (buttonList[0].text == playerSide && buttonList[4].text == playerSide && buttonList[8].text == playerSide)
     {
-      GameOver(playerSide);
+      GameOver(playerSide, buttonIdx);
     }
 
     else if (buttonList[2].text == playerSide && buttonList[4].text == playerSide && buttonList[6].text == playerSide)
     {
-      GameOver(playerSide);
+      GameOver(playerSide, buttonIdx);
     }
 
     else if (moveCount >= 9)
     {
-      GameOver("draw");
+      GameOver("draw:" + playerSide, buttonIdx);
     }
     else
     {
@@ -319,18 +317,36 @@ public class GameController : MonoBehaviour {
     }
   }
 
-  void GameOver (string winningPlayer)
+  public void GameOver (string winningPlayer, int buttonIdx, bool shouldBroadcast = true)
   {
     SetBoardInteractable(false);
 
-    if (winningPlayer == "draw")
+    if (winningPlayer.Contains("draw"))
     {
       SetGameOverText("It's a Draw!");
+
+      string[] msgComponents = winningPlayer.Split(':');
+      string drawPlayer = msgComponents[1];
+
+      if (shouldBroadcast)
+      {
+          cApp.SendButtonPressed("GAME_OVER:DRAW:" + drawPlayer + ":" + buttonIdx);
+      }
     }
     else
     {
       SetGameOverText(winningPlayer + " Wins!");
+
+      if (shouldBroadcast)
+      {
+          cApp.SendButtonPressed("GAME_OVER:WIN:" + winningPlayer + ":" + buttonIdx);
+      }
     }
+
+    waitingForPlayerInfo.SetActive(false);
+    yourTurnInfo.SetActive(false);
+    theirTurnInfo.SetActive(false);
+    joiningInfo.SetActive(false);
 
     restartButton.SetActive(true);
   }
@@ -343,11 +359,9 @@ public class GameController : MonoBehaviour {
 
   public void StartGame (bool isOpener)
   {
-     Debug.Log("game started");
      SetPlayerButtons(false);
 
     if (isOpener) {
-        Debug.Log("you need to start");
         SetBoardInteractable(true);
 
         // show new panel: "it's your turn!"
@@ -372,10 +386,14 @@ public class GameController : MonoBehaviour {
       buttonList[i].text = "";
     }
 
-    startInfo.SetActive(true);
+    startInfo.SetActive(false);
     SetPlayerColorsInactive();
     restartButton.SetActive(false);
-    SetPlayerButtons(true);
+
+    SetCreateJoinButtons(true);
+    createJoinGameInfo.SetActive(true);
+
+    cApp.Reset();
   }
 
   void SetBoardInteractable (bool toggle)

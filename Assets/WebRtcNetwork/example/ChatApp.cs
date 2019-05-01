@@ -156,7 +156,6 @@ public class ChatApp : MonoBehaviour
         }
         builder.Append("]");
         builder.Append(msg);
-        Debug.Log(builder.ToString());
     }
 
     private void Setup()
@@ -167,18 +166,15 @@ public class ChatApp : MonoBehaviour
         if (mNetwork != null)
         {
             Append("WebRTCNetwork created");
-            Debug.Log("NETWORK CREATED");
         }
         else
         {
             Append("Failed to access webrtc ");
         }
-        // SetGuiState(false);
     }
 
-    private void Reset()
+    public void Reset()
     {
-        Debug.Log("Cleanup!");
 
         mIsServer = false;
         mConnections = new List<ConnectionId>();
@@ -186,27 +182,21 @@ public class ChatApp : MonoBehaviour
         // SetGuiState(true);
     }
 
-    /// <summary>
-    /// called during reset and destroy
-    /// </summary>
     private void Cleanup()
-    {
-        mNetwork.Dispose();
-        mNetwork = null;
-    }
-
-    private void OnDestroy()
     {
         if (mNetwork != null)
         {
-            Cleanup();
+            mNetwork.Dispose();
+            mNetwork = null;    
         }
     }
 
-    // private void FixedUpdate()
+    // private void OnDestroy()
     // {
-    //     //check each fixed update if we have got new events
-    //     HandleNetwork();
+    //     if (mNetwork != null)
+    //     {
+    //         Cleanup();
+    //     }
     // }
 
     public void HandleNetwork()
@@ -224,7 +214,6 @@ public class ChatApp : MonoBehaviour
             while (mNetwork != null && mNetwork.Dequeue(out evt))
             {
                 //print to the console for debugging
-                Debug.Log(evt);
 
                 //check every message
                 switch (evt.Type)
@@ -269,11 +258,6 @@ public class ChatApp : MonoBehaviour
                                 // Append(msg);
                                 string msg = "START_GAME:" + roomOpenerStartingSide;
 
-                                Debug.Log(msg);
-                                Debug.Log("JOINED!");
-
-                                SendButtonPressed("LOL");
-
                                 ticTacToe.GetComponent<GameController>().StartGame(true);
                                 ticTacToe.GetComponent<GameController>().SetYourTurnInfo(true);
 
@@ -289,7 +273,6 @@ public class ChatApp : MonoBehaviour
                         {
                             //Outgoing connection failed. Inform the user.
                             Append("Connection failed");
-                            Debug.Log("connection FAILED");
                             Reset();
                         } break;
                     case NetEventType.Disconnected:
@@ -333,8 +316,6 @@ public class ChatApp : MonoBehaviour
 
     private bool isMoveAllowed(string currentMoveSide)
     {
-        Debug.Log("nextMovePlayerSide: " + nextMovePlayerSide);
-        Debug.Log("currentMoveSide: " + currentMoveSide);
 
         if (nextMovePlayerSide == currentMoveSide)
         {
@@ -349,15 +330,18 @@ public class ChatApp : MonoBehaviour
         if (thisSide == "X")
         {
             return "O";
-        } else {
+        }
+
+        if (thisSide == "O")
+        {
             return "X";
         }
+
+        return "";
     }
 
     private void HandleIncommingMessage(ref NetworkEvent evt)
     {
-        Debug.Log("message received");
-
         MessageDataBuffer buffer = (MessageDataBuffer)evt.MessageData;
 
         string msg = Encoding.UTF8.GetString(buffer.Buffer, 0, buffer.ContentLength);
@@ -365,14 +349,8 @@ public class ChatApp : MonoBehaviour
         //if server -> forward the message to everyone else including the sender
         if (mIsServer)
         {
-            if (msg.Contains("START_GAME:"))
-            {
-                Debug.Log("starting game for server (opener)");
-            }
-
             if (msg.Contains("MOVE:"))
             {
-                Debug.Log("MESSAGE: " + msg);
                 string[] msgComponents = msg.Split(':');
                 string moveSide = msgComponents[1];
                 int moveGridSpaceIdx = Int32.Parse(msgComponents[2]);
@@ -393,34 +371,68 @@ public class ChatApp : MonoBehaviour
                 }
             }
 
+            if (msg.Contains("GAME_OVER:"))
+            {
+                // starting side gets to choose side and start on draw
+                string[] msgComponents = msg.Split(':');
+                string moveSide = msgComponents[2];
+                int buttonIdx = Int32.Parse(msgComponents[3]);
+
+                if (isMoveAllowed(moveSide))
+                {
+                // GAME_OVER:DRAW:_ ... we need to indicate the starting side for starting override
+
+                    if (moveSide == roomOpenerStartingSide)
+                    {
+                        nextMovePlayerSide = otherSide(roomOpenerStartingSide);
+                    }
+                    else
+                    {
+                        nextMovePlayerSide = roomOpenerStartingSide;
+                    }
+
+                    gridSpace = new GridSpace();
+                    gridSpace.SetSpaceForGrid(buttonIdx, moveSide, ticTacToe.GetComponent<GameController>());
+
+                    if (msg.Contains("DRAW"))
+                    {
+                        ticTacToe.GetComponent<GameController>().GameOver("draw:" + moveSide, buttonIdx, false);
+                    }
+
+                    // GAME_OVER:WIN:X ... we need to indicate the starting side for starting over
+                    if (msg.Contains("WIN"))
+                    {
+                        ticTacToe.GetComponent<GameController>().GameOver(moveSide, buttonIdx, false);
+                    }
+                }
+            }
+
             //we use the server side connection id to identify the client
             string idAndMessage = evt.ConnectionId + ":" + msg;
             SendString(idAndMessage);
-
-            Debug.Log("server: " + msg);
         }
         else
         {
             //client received a message from the server -> simply print
             Append(msg);
 
-            Debug.Log("not server: " + msg);
 
             if (msg.Contains("START_GAME:"))
             {
                 // since client joined the game, they wait to start
 
                 // show panel: You've joined the game as X/O! Your opponent starts as X/O.
-                Debug.Log("starting game for client (joiner)");
-                // ticTacToe.GetComponent<GameController>().StartGame(false);
+
                 string[] msgComponents = msg.Split(':');
                 string openerSide = msgComponents[1];
 
                 Player playerX = ticTacToe.GetComponent<GameController>().playerX;
                 Player playerO = ticTacToe.GetComponent<GameController>().playerO;
 
-                Debug.Log("OPENER SIDE on start game for client: " + openerSide);
                 nextMovePlayerSide = openerSide;
+                ticTacToe.GetComponent<GameController>().playerSide = openerSide;
+
+                Debug.Log("nextMovePlayerSide: " + nextMovePlayerSide);
 
                 if (openerSide == "X")
                 {
@@ -433,7 +445,6 @@ public class ChatApp : MonoBehaviour
 
             if (msg.Contains("MOVE:"))
             {
-                Debug.Log("MESSAGE: " + msg);
                 // message looks like 0:MOVE:X:7
                 string[] msgComponents = msg.Split(':');
                 string moveSide = msgComponents[2];
@@ -454,29 +465,61 @@ public class ChatApp : MonoBehaviour
                     gridSpace.SetSpaceForGrid(moveGridSpaceIdx, moveSide, ticTacToe.GetComponent<GameController>());
                 }
             }
+
+            if (msg.Contains("GAME_OVER:"))
+            {
+                string[] msgComponents = msg.Split(':');
+
+                Debug.Log("client stuff: " + msg);
+                Debug.Log("client stuff2: " + msgComponents);
+
+                string moveSide = msgComponents[3];
+                int buttonIdx = Int32.Parse(msgComponents[4]);
+
+                // message looks like 0:GAME_OVER:DRAW:X:buttonIdx (where buttonIdx is 0-8)
+
+                // TODO next, problem with this: results in infinite loop bc DRAW is in all messages
+                if (isMoveAllowed(moveSide))
+                {
+                    if (moveSide == roomOpenerStartingSide)
+                    {
+                        nextMovePlayerSide = otherSide(roomOpenerStartingSide);
+                    }
+                    else
+                    {
+                        nextMovePlayerSide = roomOpenerStartingSide;
+                    }
+
+                    gridSpace = new GridSpace();
+                    gridSpace.SetSpaceForGrid(buttonIdx, moveSide, ticTacToe.GetComponent<GameController>());
+
+                    if (msg.Contains("DRAW"))
+                    {
+                        // the draw move for client will always come from server
+                        // hence roomOpenerStartingSide
+                        ticTacToe.GetComponent<GameController>().GameOver("draw:" + moveSide, buttonIdx, false);
+                    }
+
+                    if (msg.Contains("WIN"))
+                    {
+                        ticTacToe.GetComponent<GameController>().GameOver(moveSide, buttonIdx, false);
+                    }
+                }
+            }
         }
 
         //return the buffer so the network can reuse it
         buffer.Dispose();
     }
 
-
-    /// <summary>
-    /// Sends a string as UTF8 byte array to all connections
-    /// </summary>
-    /// <param name="msg">String containing the message to send</param>
-    /// <param name="reliable">false to use unreliable messages / true to use reliable messages</param>
     private void SendString(string msg, bool reliable = true)
     {
         if (mNetwork == null || mConnections.Count == 0)
         {
             Append("No connection. Can't send message.");
-            Debug.Log("No connection. Can't send message.");
         }
         else
         {
-            Debug.Log("Sending string...");
-
             byte[] msgData = Encoding.UTF8.GetBytes(msg);
             foreach (ConnectionId id in mConnections)
             {
@@ -493,35 +536,11 @@ public class ChatApp : MonoBehaviour
         DebugHelper.DrawConsole();
     }
 
-    /// <summary>
-    /// Adds a new message to the message view
-    /// </summary>
-    /// <param name="text"></param>
     private void Append(string text)
     {
-        // Debug.Log("chat: " + text);
         // uOutput.AddTextEntry(text);
     }
 
-
-    /// <summary>
-    /// Changes the gui depending on if the user is connected
-    /// or disconnected
-    /// </summary>
-    /// <param name="showSetup">true = user is connected. false = user isn't connected</param>
-    // private void SetGuiState(bool showSetup)
-    // {
-    //     uJoin.interactable = showSetup;
-    //     uOpenRoom.interactable = showSetup;
-    //
-    //     uSend.interactable = !showSetup;
-    //     uLeave.interactable = !showSetup;
-    //     uMessageInput.interactable = !showSetup;
-    // }
-
-    /// <summary>
-    /// Join button pressed. Tries to join a room.
-    /// </summary>
     public void JoinRoomButtonPressed(string roomName, GameObject ttt)
     {
         ticTacToe = ttt;
@@ -530,27 +549,6 @@ public class ChatApp : MonoBehaviour
         Append("Connecting to " + roomName + " ...");
     }
 
-    // private void EnsureLength()
-    // {
-    //     if(uRoomName.text.Length > MAX_CODE_LENGTH)
-    //     {
-    //         uRoomName.text = uRoomName.text.Substring(0, MAX_CODE_LENGTH);
-    //     }
-    // }
-
-    /// <summary>
-    /// Shuts the app down and waits for a restart
-    /// </summary>
-    public void LeaveButtonPressed()
-    {
-        Reset();
-        // SetGuiState(true);
-    }
-    /// <summary>
-    /// Open room button pressed.
-    ///
-    /// Opens a room / starts a server
-    /// </summary>
     public void OpenRoomButtonPressed(string roomName, string startingSide, GameObject ttt)
     {
         ticTacToe = ttt;
@@ -559,26 +557,10 @@ public class ChatApp : MonoBehaviour
 
         Setup();
         mNetwork.StartServer(roomName);
-        Debug.Log("StartServer " + roomName);
     }
 
-    // public void InputOnEndEdit()
-    // {
-    //     if (Input.GetKey(KeyCode.Return))
-    //     {
-    //         SendButtonPressed();
-    //     }
-    // }
-
-    /// <summary>
-    /// This is called if the send button
-    /// </summary>
     public void SendButtonPressed(string msg)
     {
-        //get the message written into the text field
-        // string msg = uMessageInput.text;
-
-
         if (msg.StartsWith("/disconnect"))
         {
             string[] slt = msg.Split(' ');
@@ -605,12 +587,6 @@ public class ChatApp : MonoBehaviour
             //clients just send it directly to the server. the server will decide what to do with it
             SendString(msg);
         }
-        // uMessageInput.text = "";
-
-        //make sure the text box is in focus again so the user can continue typing without clicking it again
-        //select another element first. without this the input field is in focus after return pressed
-        // uSend.Select();
-        // uMessageInput.Select();
     }
     #endregion
 }
