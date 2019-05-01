@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: adb779202ef0d4066a3a07ccf909966d
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Everson Mono
+  fontNames:
+  - Everson Mono
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 29710453b3d0b464ea23691ed569d403, type: 3}
+  - {fileID: 12800000, guid: a6c2e03511f924a1a9d77e84cc6a5404, type: 3}
+  - {fileID: 12800000, guid: 9bc916d978b7e44e29024beaabf72fd0, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
