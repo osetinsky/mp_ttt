@@ -11,108 +11,27 @@ using System;
 using Byn.Net;
 using System.Collections.Generic;
 using Byn.Common;
-
-/// <summary>
-/// Contains a complete chat example.
-/// It can run on Windows x86/x64 and in browsers. More platforms will be added soon.
-///
-/// The chat app will report during start which system it uses.
-///
-/// The user can enter a room name and click the "Open room" button to start a server and wait for
-/// incoming connections or use the "Join room" button to join an already existing room.
-///
-///
-///
-///
-/// As the system implements a server/client style connection all messages will first be sent to the
-/// server and the server delivers it to each client. The server side ConnectionId is used to
-/// identify a user.
-///
-///
-/// </summary>
 public class ChatApp : MonoBehaviour
 {
-    /// <summary>
-    /// This is a test server. Don't use in production! The server code is in a zip file in WebRtcNetwork
-    /// </summary>
     public string uSignalingUrl = "wss://because-why-not.com:12777/chatapp";
-
-
-
     public string uIceServer = "stun:because-why-not.com:12779";
     public string uIceServerUser = "";
     public string uIceServerPassword = "";
-
-    /// <summary>
-    /// Mozilla stun server. Used to get trough the firewall and establish direct connections.
-    /// Replace this with your own production server as well.
-    /// </summary>
     public string uIceServer2 = "stun:stun.l.google.com:19302";
-
-    /// <summary>
-    /// Set true to use send the WebRTC log + wrapper log output to the unity log.
-    /// </summary>
     public bool uLog = false;
-
-    /// <summary>
-    /// Debug console to be able to see the unity log on every platform
-    /// </summary>
     public bool uDebugConsole = false;
 
-    #region UI
-    /// <summary>
-    /// Input field used to enter the room name.
-    /// </summary>
     public InputField uRoomName;
-
-    /// <summary>
-    /// Input field to enter a new message.
-    /// </summary>
     public InputField uMessageInput;
-
-    /// <summary>
-    /// Output message list to show incoming and sent messages + output messages of the
-    /// system itself.
-    /// </summary>
     public MessageList uOutput;
-
-    /// <summary>
-    /// Join button to connect to a server.
-    /// </summary>
     public Button uJoin;
-
-    /// <summary>
-    /// Send button.
-    /// </summary>
     public Button uSend;
-
-    /// <summary>
-    /// Open room button to start a server.
-    /// </summary>
     public Button uOpenRoom;
-
-    /// <summary>
-    /// Button to leave the room
-    /// </summary>
     public Button uLeave;
-    #endregion
-    /// <summary>
-    /// The network interface.
-    /// This can be native webrtc or the browser webrtc version.
-    /// (Can also be the old or new unity network but this isn't part of this package)
-    /// </summary>
+
     private IBasicNetwork mNetwork = null;
-
-    /// <summary>
-    /// True if the user opened an own room allowing incoming connections
-    /// </summary>
     private bool mIsServer = false;
-
-    /// <summary>
-    /// Keeps track of all current connections
-    /// </summary>
     private List<ConnectionId> mConnections = new List<ConnectionId>();
-
 
     private const int MAX_CODE_LENGTH = 256;
     private string roomOpenerStartingSide;
@@ -122,12 +41,8 @@ public class ChatApp : MonoBehaviour
 
     public string nextMovePlayerSide;
 
-    /// <summary>
-    /// Will setup webrtc and create the network object
-    /// </summary>
 	public void StartMe ()
     {
-        //shows the console on all platforms. for debugging only
         if(uDebugConsole)
             DebugHelper.ActivateConsole();
         if(uLog)
@@ -142,6 +57,7 @@ public class ChatApp : MonoBehaviour
             Append("WebRtcNetworkFactory created");
 
     }
+
     private void OnLog(object msg, string[] tags)
     {
         StringBuilder builder = new StringBuilder();
@@ -187,17 +103,9 @@ public class ChatApp : MonoBehaviour
         if (mNetwork != null)
         {
             mNetwork.Dispose();
-            mNetwork = null;    
+            mNetwork = null;
         }
     }
-
-    // private void OnDestroy()
-    // {
-    //     if (mNetwork != null)
-    //     {
-    //         Cleanup();
-    //     }
-    // }
 
     public void HandleNetwork()
     {
